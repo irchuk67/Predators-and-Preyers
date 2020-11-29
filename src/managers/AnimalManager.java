@@ -1,6 +1,7 @@
 package managers;
 
 import cells.Animal;
+import cells.Food;
 import cells.Pray;
 import cells.Predator;
 import visualComponents.Map;
@@ -11,7 +12,7 @@ public class AnimalManager {
     private MapManager mapManager = new MapManager();
     private CellManager cellManager = new CellManager();
 
-    public void moveAnimal(Animal animal, Map map, List<Animal> toRemove){
+    public void moveAnimal(Animal animal, Map map, List<Animal> toRemovePray, List<Food> toRemoveFood){
         if(!animal.isTracking()){
             animal.setAim(animal.searchFood(map));
             animal.setTracking(true);
@@ -27,10 +28,10 @@ public class AnimalManager {
                 try{
                     cellManager.makeEmptyCell(animal.getAim());
                     if(animal instanceof Pray){
-                        mapManager.removeFoodFromList(animal.getAim(), map);
+                        toRemoveFood.add((Food) animal.getAim());
                     }
                     if(animal instanceof Predator){
-                        toRemove.add((Animal) animal.getAim());
+                        toRemovePray.add((Animal) animal.getAim());
                     }
 
                     animal.eat();

@@ -4,6 +4,7 @@ import cells.Food;
 import cells.Pray;
 import cells.Predator;
 import visualComponents.Map;
+import visualComponents.Statistics;
 
 import java.util.Scanner;
 
@@ -49,6 +50,15 @@ public class Console {
         System.out.println("Food: " + map.getMaxFood());
         System.out.println("Prays: " + map.getMaxPrays());
         System.out.println("Predators: " + map.getMaxPredators());
+    }
+
+    public void printStatistics(){
+        Statistics statistics = Statistics.getInstance();
+        System.out.println("Food: " + statistics.getFood());
+        System.out.println("Pray: " + statistics.getPray());
+        System.out.println("Predator: " + statistics.getPredator());
+        System.out.println("Dead prays: " + statistics.getDeadPray());
+        System.out.println("Eaten food: " + statistics.getEatenFood());
     }
 
     public void clean() {

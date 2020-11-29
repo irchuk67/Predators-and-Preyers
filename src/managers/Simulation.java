@@ -1,8 +1,10 @@
 package managers;
 
 import cells.Animal;
+import cells.Food;
 import userInterface.Console;
 import visualComponents.Map;
+import visualComponents.Statistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +14,15 @@ public class Simulation {
     private AnimalManager animalManager = new AnimalManager();
 
     public void moveMap(Map map) {
-        List<Animal> toRemove = new ArrayList<>();
+        List<Animal> toRemovePray = new ArrayList<>();
+        List<Food> toRemoveFood = new ArrayList<>();
         for (Animal animal : map.getAnimals()) {
-            animalManager.moveAnimal(animal, map, toRemove);
+            animalManager.moveAnimal(animal, map, toRemovePray, toRemoveFood);
         }
-        map.getAnimals().removeAll(toRemove);
+        Statistics statistics = Statistics.getInstance();
+        statistics.addDeadPray(toRemovePray.size());
+        map.getAnimals().removeAll(toRemovePray);
+        statistics.addEatenFood(toRemoveFood.toArray().length);
+        map.getGrass().removeAll(toRemoveFood);
     }
 }
