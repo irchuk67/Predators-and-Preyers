@@ -13,12 +13,12 @@ public class Pray extends Animal {
 
     public Cell searchFood(Map map) {
         Cell food = null;
-        int minDistance = 0, currDistance;
-        for(int i = 0; i < map.getMap().length; i++){
-            for(int j = 0; j < map.getMap().length; j++){
-                if(map.getMap()[i][j] instanceof Food){
+        int minDistance = map.getMapSize() * 2, currDistance;
+        for (int i = 0; i < map.getMap().length; i++) {
+            for (int j = 0; j < map.getMap().length; j++) {
+                if (map.getMap()[i][j] instanceof Food) {
                     currDistance = countDistance(i, j);
-                    if(currDistance < minDistance){
+                    if (currDistance < minDistance) {
                         minDistance = currDistance;
                         food = map.getMap()[i][j];
                     }
@@ -40,5 +40,20 @@ public class Pray extends Animal {
 
     public static int getHealthPoints() {
         return healthPoints;
+    }
+
+    @Override
+    public Cell clone() {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Pray{" +
+                "reproductionCounter=" + reproductionCounter +
+                ", i=" + i +
+                ", j=" + j +
+                ", liveDuration=" + liveDuration +
+                '}';
     }
 }

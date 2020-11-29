@@ -29,4 +29,6 @@ public abstract class Cell {
     public int getJ() {
         return j;
     }
+
+    public abstract Cell clone();
 }
