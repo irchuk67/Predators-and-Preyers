@@ -1,8 +1,15 @@
 package visualComponents;
 
+import cells.Animal;
 import cells.Cell;
+import cells.Food;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Map {
+    private List<Animal> animals = new ArrayList<>();
+    private List<Food> grass = new ArrayList<>();
     private Cell[][] map;
     private int mapSize;
     private int maxFood;
@@ -10,17 +17,29 @@ public class Map {
     private int maxPredators;
     private int objectsAmount;
 
-    public Map(int mapSize){
+    public Map(int mapSize) {
         this.mapSize = mapSize;
         map = new Cell[mapSize][mapSize];
-        maxFood = (mapSize * mapSize) / 5;
+        maxFood = (mapSize * mapSize) / 8;
         maxPrays = maxFood / 4;
         maxPredators = maxPrays / 4;
         objectsAmount = maxFood + maxPrays + maxPredators;
     }
 
+    public void setCellInListAnimal(Animal animal) {
+        animals.add(animal);
+    }
+
+    public void setInListGrass(Food food) {
+        grass.add(food);
+    }
+
     public Cell[][] getMap() {
         return map;
+    }
+
+    public void setMap(Cell[][] map) {
+        this.map = map;
     }
 
     public int getMapSize() {
@@ -41,5 +60,13 @@ public class Map {
 
     public int getObjectsAmount() {
         return objectsAmount;
+    }
+
+    public List<Animal> getAnimals() {
+        return animals;
+    }
+
+    public List<Food> getGrass() {
+        return grass;
     }
 }

@@ -2,7 +2,7 @@ package managers;
 
 import cells.*;
 
-public class CellManager {
+public class CellManager {  //TODO: change to factory method
 
     public Pray createPray(int liveDuration, int reproductionCounter){
         return new Pray(liveDuration, reproductionCounter);
