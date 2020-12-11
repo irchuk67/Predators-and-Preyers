@@ -5,12 +5,21 @@ import visualComponents.Map;
 public class Pray extends Animal {
     private static final int healthPoints = 3;
 
-    public Pray(int liveDuration, int reproductionCounter) {
-        super(liveDuration, reproductionCounter);
+    public Pray() {
+    }
+
+    private Pray(Pray pray) {
+        this.steps = pray.steps;
+        this.liveDuration = 0;
+        this.isTracking = false;
+        this.aim = null;
+        this.reproductionTarget = pray.reproductionTarget;
+        this.reproductionCounter = 0;
+        this.i = pray.i;
+        this.j = pray.j + 1;
     }
 
     @Override
-
     public Cell searchFood(Map map) {
         Cell food = null;
         int minDistance = map.getMapSize() * 2, currDistance;
@@ -31,11 +40,7 @@ public class Pray extends Animal {
     @Override
     public void eat() {
         liveDuration += Food.getHealthPoints();
-    }
-
-    @Override
-    public void reproduction() {
-
+        reproductionCounter++;
     }
 
     public static int getHealthPoints() {
@@ -43,17 +48,8 @@ public class Pray extends Animal {
     }
 
     @Override
-    public Cell clone() {
-        return null;
+    public Animal clone() {
+        return new Pray(this);
     }
 
-    @Override
-    public String toString() {
-        return "Pray{" +
-                "reproductionCounter=" + reproductionCounter +
-                ", i=" + i +
-                ", j=" + j +
-                ", liveDuration=" + liveDuration +
-                '}';
-    }
 }

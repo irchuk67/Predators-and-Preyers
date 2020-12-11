@@ -3,14 +3,11 @@ package cells;
 import visualComponents.Map;
 
 public abstract class Animal extends Cell {
+    protected int reproductionTarget;
     protected int reproductionCounter;
     protected boolean isTracking;
     protected Cell aim;
-
-    public Animal(int liveDuration, int reproductionCounter) {
-        super(liveDuration);
-        this.reproductionCounter = reproductionCounter;
-    }
+    protected int steps;
 
     protected int countDistance(int i, int j) {
         return Math.abs(this.i - i) + Math.abs(this.j - j);
@@ -19,8 +16,6 @@ public abstract class Animal extends Cell {
     public abstract Cell searchFood(Map map);
 
     public abstract void eat();
-
-    public abstract void reproduction();
 
     public void move(Cell cell) {
         if(this instanceof Pray){
@@ -32,7 +27,9 @@ public abstract class Animal extends Cell {
                 step(cell);
             }
         }
-
+        if(cell == null) {
+            i++;
+        }
     }
 
     private void step(Cell cell) {
@@ -47,8 +44,16 @@ public abstract class Animal extends Cell {
         }
     }
 
+    public int getReproductionTarget() {
+        return reproductionTarget;
+    }
+
     public int getReproductionCounter() {
         return reproductionCounter;
+    }
+
+    public void setReproductionCounter(int reproductionCounter) {
+        this.reproductionCounter = reproductionCounter;
     }
 
     public boolean isTracking() {
@@ -66,4 +71,10 @@ public abstract class Animal extends Cell {
     public void setAim(Cell aim) {
         this.aim = aim;
     }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public abstract Animal clone();
 }

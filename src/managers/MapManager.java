@@ -6,7 +6,7 @@ import cells.Food;
 import visualComponents.Map;
 
 public class MapManager {
-    private final CellManager cellManager = new CellManager();
+    private final CellFactory cellFactory = new CellFactory();
 
     public Map createMap(int mapSize) {
         return new Map(mapSize);
@@ -19,21 +19,21 @@ public class MapManager {
             int indJ = (int) (Math.random() * map.getMapSize());
             if (map.getMap()[indI][indJ] == null) {
                 if (foodCounter < map.getMaxFood()) {
-                    map.getMap()[indI][indJ] = cellManager.createFood(6);
+                    map.getMap()[indI][indJ] = cellFactory.createFood();
                     map.getMap()[indI][indJ].setCoordinates(indI, indJ);
                     map.setInListGrass((Food) map.getMap()[indI][indJ]);
                     foodCounter++;
                     continue;
                 }
                 if (preyCounter < map.getMaxPrays()) {
-                    map.getMap()[indI][indJ] = cellManager.createPray(9, 3);
+                    map.getMap()[indI][indJ] = cellFactory.createPray();
                     map.getMap()[indI][indJ].setCoordinates(indI, indJ);
                     map.setCellInListAnimal((Animal) map.getMap()[indI][indJ]);
                     preyCounter++;
                     continue;
                 }
                 if (predatorCounter < map.getMaxPredators()) {
-                    map.getMap()[indI][indJ] = cellManager.createPredator(12, 3);
+                    map.getMap()[indI][indJ] = cellFactory.createPredator();
                     map.getMap()[indI][indJ].setCoordinates(indI, indJ);
                     map.setCellInListAnimal((Animal) map.getMap()[indI][indJ]);
                     predatorCounter++;

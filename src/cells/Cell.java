@@ -1,13 +1,10 @@
 package cells;
 
+
 public abstract class Cell {
     protected int i;
     protected int j;
     protected int liveDuration;
-
-    public Cell(int liveDuration) {
-        this.liveDuration = liveDuration;
-    }
 
     public int getLiveDuration() {
         return liveDuration;
@@ -30,5 +27,7 @@ public abstract class Cell {
         return j;
     }
 
-    public abstract Cell clone();
+    public void reduceLiveDuration() {
+        liveDuration--;
+    }
 }

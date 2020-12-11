@@ -4,16 +4,14 @@ import visualComponents.Map;
 
 public class Predator extends Animal {
 
-    public Predator(int liveDuration, int reproductionCounter) {
-        super(liveDuration, reproductionCounter);
+    public Predator() {
     }
 
     private Predator(Predator predator) {
-        super(predator.liveDuration, predator.reproductionCounter);
         this.i = predator.i;
-        this.j = predator.j;
+        this.j = predator.j + 1;
         this.liveDuration = predator.liveDuration;
-        this.reproductionCounter = predator.reproductionCounter;
+        this.reproductionTarget = 0;
     }
 
     @Override
@@ -38,25 +36,12 @@ public class Predator extends Animal {
     @Override
     public void eat() {
         liveDuration += Pray.getHealthPoints();
+        reproductionCounter++;
     }
 
     @Override
-    public void reproduction() {
-
-    }
-
-    @Override
-    public Cell clone() {
+    public Animal clone() {
         return new Predator(this);
     }
 
-    @Override
-    public String toString() {
-        return "Predator{" +
-                "reproductionCounter=" + reproductionCounter +
-                ", i=" + i +
-                ", j=" + j +
-                ", liveDuration=" + liveDuration +
-                '}';
-    }
 }

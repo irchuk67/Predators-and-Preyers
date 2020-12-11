@@ -5,7 +5,7 @@ import visualComponents.Map;
 import visualComponents.Statistics;
 
 public class Controller {
-    private CellManager cellManager = new CellManager();
+    private CellFactory cellFactory = new CellFactory();
     private MapManager mapManager = new MapManager();
     private Console console = new Console();
     private Simulation simulation = new Simulation();

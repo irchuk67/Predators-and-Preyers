@@ -25,4 +25,14 @@ public class Simulation {
         statistics.addDeadPray(animalsBefore - map.getAnimals().size());
         statistics.addEatenFood(foodBefore - map.getGrass().size());
     }
+
+    public void reduceLiveDurationMap(Map map) {
+        for(int i = 0 ; i < map.getGrass().size(); i++) {
+            map.getGrass().get(i).reduceLiveDuration();
+        }
+
+        for(int i = 0 ; i < map.getAnimals().size(); i++) {
+            map.getAnimals().get(i).reduceLiveDuration();
+        }
+    }
 }
