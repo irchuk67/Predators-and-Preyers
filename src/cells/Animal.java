@@ -22,7 +22,20 @@ public abstract class Animal extends Cell {
 
     public abstract void reproduction();
 
-    public void move(Cell cell) {  //TODO: Exceptions in the next lab
+    public void move(Cell cell) {
+        if(this instanceof Pray){
+            if(this.getAim() instanceof Food){
+                step(cell);
+            }
+        } else if(this instanceof Predator){
+            if(this.getAim() instanceof Pray){
+                step(cell);
+            }
+        }
+
+    }
+
+    private void step(Cell cell) {
         if (i < cell.getI()) {
             i++;
         } else if (i > cell.getI()) {

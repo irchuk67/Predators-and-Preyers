@@ -12,7 +12,7 @@ public class AnimalManager {
     private MapManager mapManager = new MapManager();
     private CellManager cellManager = new CellManager();
 
-    public void moveAnimal(Animal animal, Map map, List<Animal> toRemovePray, List<Food> toRemoveFood){
+    public void moveAnimal(Animal animal, Map map, List<Animal> toRemovePray){
         if(!animal.isTracking()){
             animal.setAim(animal.searchFood(map));
             animal.setTracking(true);
@@ -26,16 +26,19 @@ public class AnimalManager {
             animal.move(animal.getAim());
             if(animal.getI() == animal.getAim().getI() && animal.getJ() == animal.getAim().getJ()) {
                 try{
-                    cellManager.makeEmptyCell(animal.getAim());
-                    if(animal instanceof Pray){
-                        toRemoveFood.add((Food) animal.getAim());
+                    if(animal instanceof  Pray && animal.getAim() instanceof Food){
+                        cellManager.makeEmptyCell(animal.getAim());
+                        mapManager.removeFoodFromList(animal.getAim(), map);
+                        animal.eat();
+                        animal.setTracking(false);
                     }
-                    if(animal instanceof Predator){
+                    else if(animal instanceof Predator && animal.getAim() instanceof Pray){
+                        cellManager.makeEmptyCell(animal.getAim());
                         toRemovePray.add((Animal) animal.getAim());
+                        animal.eat();
+                        animal.setTracking(false);
                     }
 
-                    animal.eat();
-                    animal.setTracking(false);
                 } catch (Exception exc) {
                     System.out.println("Can`t");
                 }

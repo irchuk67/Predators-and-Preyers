@@ -44,10 +44,6 @@ public class MapManager {
         }
     }
 
-    public void removeAnimalsFromList(Cell animal, Map map) {
-        map.getAnimals().remove(animal);
-    }
-
     public void removeFoodFromList(Cell food, Map map) {
         map.getGrass().remove(food);
     }

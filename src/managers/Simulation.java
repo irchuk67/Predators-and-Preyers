@@ -15,14 +15,14 @@ public class Simulation {
 
     public void moveMap(Map map) {
         List<Animal> toRemovePray = new ArrayList<>();
-        List<Food> toRemoveFood = new ArrayList<>();
+        int animalsBefore = map.getAnimals().size();
+        int foodBefore = map.getGrass().size();
         for (Animal animal : map.getAnimals()) {
-            animalManager.moveAnimal(animal, map, toRemovePray, toRemoveFood);
+            animalManager.moveAnimal(animal, map, toRemovePray);
         }
         Statistics statistics = Statistics.getInstance();
-        statistics.addDeadPray(toRemovePray.size());
         map.getAnimals().removeAll(toRemovePray);
-        statistics.addEatenFood(toRemoveFood.toArray().length);
-        map.getGrass().removeAll(toRemoveFood);
+        statistics.addDeadPray(animalsBefore - map.getAnimals().size());
+        statistics.addEatenFood(foodBefore - map.getGrass().size());
     }
 }

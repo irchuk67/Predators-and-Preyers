@@ -22,7 +22,7 @@ public class Map {
         map = new Cell[mapSize][mapSize];
         maxFood = (mapSize * mapSize) / 8;
         maxPrays = maxFood / 4;
-        maxPredators = maxPrays / 4;
+        maxPredators = maxPrays / 2;
         objectsAmount = maxFood + maxPrays + maxPredators;
     }
 
