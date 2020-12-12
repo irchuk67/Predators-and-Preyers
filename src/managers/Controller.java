@@ -23,7 +23,7 @@ public class Controller {
     public void startMoving(Map map){
         for(int step = 0; step < 10; step++) {
             try {
-                Thread.sleep(3500);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

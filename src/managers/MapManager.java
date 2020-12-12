@@ -84,7 +84,6 @@ public class MapManager {
                 cell.setCoordinates(cell.getI(), cell.getJ() - 2);
             }
             newCells[cell.getI()][cell.getJ()] = cell;
-            newCells[cell.getI()][cell.getJ()] = cell;
         }
         map.setMap(newCells);
     }
