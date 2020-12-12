@@ -28,7 +28,11 @@ public class Controller {
                 e.printStackTrace();
             }
             console.clean();
+            if(step % 3 == 0)
+                mapManager.addNewGrass(map);
             simulation.moveMap(map);
+            simulation.reduceLiveDurationMap(map);
+            mapManager.addBorn(map);
             mapManager.changeMap(map);
             console.printMap(map);
             statistics.count(map);
