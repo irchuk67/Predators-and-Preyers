@@ -88,13 +88,21 @@ public class MapManager {
         map.setMap(newCells);
     }
 
-    public void addBorn(Map map) {
+    public void addBorn(Map map){
         int length = map.getAnimals().size();
-        for (int i = 0; i < length; i++) {
-            if (map.getAnimals().get(i).getReproductionCounter() == map.getAnimals().get(i).getReproductionTarget()) {
+        for(int i = 0; i < length; i++) {
+            if(map.getAnimals().get(i).getReproductionCounter() == map.getAnimals().get(i).getReproductionTarget()){
                 Animal animal = map.getAnimals().get(i).clone();
-                map.getAnimals().get(i).setReproductionCounter(0);
-                map.setCellInListAnimal(animal);
+                int indI = (int) (Math.random() * map.getMapSize());
+                int indJ = (int) (Math.random() * map.getMapSize());
+                if(map.getMap()[indI][indJ] == null){
+                    animal.setCoordinates(indI, indJ);
+                    map.getAnimals().get(i).setReproductionCounter(0);
+                    map.setCellInListAnimal(animal);
+                }
+                else {
+                    i--;
+                }
             }
         }
     }
