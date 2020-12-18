@@ -3,6 +3,7 @@ package managers;
 import cells.Animal;
 import cells.Cell;
 import cells.Food;
+import userInterface.Console;
 import visualComponents.Map;
 
 import java.util.ArrayList;
@@ -10,12 +11,15 @@ import java.util.List;
 
 public class MapManager {
     private final CellFactory cellFactory = new CellFactory();
+    private final Console console = new Console();
 
     public Map createMap(int mapSize) {
         return new Map(mapSize);
     }
 
     public void fillMap(Map map) {
+        int typePray = console.prayOnMap();
+        int typePredator = console.predatorOnMap();
         int foodCounter = 0, preyCounter = 0, predatorCounter = 0;
         for (int i = 0; i < map.getObjectsAmount(); i++) {
             int indI = (int) (Math.random() * map.getMapSize());
@@ -29,14 +33,14 @@ public class MapManager {
                     continue;
                 }
                 if (preyCounter < map.getMaxPrays()) {
-                    map.getMap()[indI][indJ] = cellFactory.createPray();
+                    map.getMap()[indI][indJ] = cellFactory.createPray(typePray);
                     map.getMap()[indI][indJ].setCoordinates(indI, indJ);
                     map.setCellInListAnimal((Animal) map.getMap()[indI][indJ]);
                     preyCounter++;
                     continue;
                 }
                 if (predatorCounter < map.getMaxPredators()) {
-                    map.getMap()[indI][indJ] = cellFactory.createPredator();
+                    map.getMap()[indI][indJ] = cellFactory.createPredator(typePredator);
                     map.getMap()[indI][indJ].setCoordinates(indI, indJ);
                     map.setCellInListAnimal((Animal) map.getMap()[indI][indJ]);
                     predatorCounter++;
@@ -74,7 +78,7 @@ public class MapManager {
         Cell[][] newCells = new Cell[size][size];
         for (int k = 0; k < map.getGrass().size(); k++) {
             Cell cell = map.getGrass().get(k);
-            newCells[cell.getI()][cell.getJ()] = cell;
+            if(cell.getLiveDuration()>0){ newCells[cell.getI()][cell.getJ()] = cell;}
         }
         for (int k = 0; k < map.getAnimals().size(); k++) {
             Cell cell = map.getAnimals().get(k);

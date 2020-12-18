@@ -5,11 +5,17 @@ import visualComponents.Map;
 
 public class CellFactory {
 
-    public Pray createPray() {
+    public Cell createPray(int type) {
+        if (type == 1){return new Deer();}
+        else if(type == 2){return new Hare();}
+        else if(type == 3){return new Sheep();}
         return new Pray();
     }
 
-    public Predator createPredator() {
+    public Predator createPredator(int type) {
+        if (type == 1){return new Fox();}
+        else if(type == 2){return new Lynx();}
+        else if(type == 3){return new Wolf();}
         return new Predator();
     }
 
