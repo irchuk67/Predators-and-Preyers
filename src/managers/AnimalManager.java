@@ -27,12 +27,12 @@ public class AnimalManager {
             if (animal.getI() == animal.getAim().getI() && animal.getJ() == animal.getAim().getJ()) {
                 try {
                     if (animal instanceof Pray && animal.getAim() instanceof Food) {
-                        cellFactory.makeEmptyCell(animal.getAim());
+//                        cellFactory.makeEmptyCell(animal.getAim());
                         mapManager.removeFoodFromList(animal.getAim(), map);
                         animal.eat();
                         animal.setTracking(false);
                     } else if (animal instanceof Predator && animal.getAim() instanceof Pray) {
-                        cellFactory.makeEmptyCell(animal.getAim());
+//                        cellFactory.makeEmptyCell(animal.getAim());
                         toRemovePray.add((Animal) animal.getAim());
                         animal.eat();
                         animal.setTracking(false);

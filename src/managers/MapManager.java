@@ -56,21 +56,24 @@ public class MapManager {
     }
 
     public void cleanEmpty(Map map) {
-        cellFactory.makeZeroLiveDurationNull(map);
         List<Food> toRemoveFood = new ArrayList<>();
         List<Animal> toRemoveAnimals = new ArrayList<>();
         for (int i = 0; i < map.getGrass().size(); i++) {
-            if (map.getGrass().get(i) == null) {
+            if (map.getGrass().get(i).getLiveDuration() <= 0) {
                 toRemoveFood.add(map.getGrass().get(i));
             }
         }
         for (int i = 0; i < map.getAnimals().size(); i++) {
-            if (map.getAnimals().get(i) == null) {
+            if (map.getAnimals().get(i).getLiveDuration() <= 0) {
                 toRemoveAnimals.add(map.getAnimals().get(i));
             }
         }
         map.getAnimals().removeAll(toRemoveAnimals);
         map.getGrass().removeAll(toRemoveFood);
+        if(map.getAnimals().size() == 0) {
+            console.endSimulation();
+            System.exit(0);
+        }
     }
 
     public void changeMap(Map map) {

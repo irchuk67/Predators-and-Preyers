@@ -70,7 +70,6 @@ public class Statistics {
 
     public void addEatenFood(int eatenFood){
         this.eatenFood += eatenFood;
-        System.out.println(eatenFood);
     }
 
     public void addDeadPredator(int deadPredator){

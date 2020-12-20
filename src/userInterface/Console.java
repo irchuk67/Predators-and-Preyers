@@ -87,4 +87,8 @@ public class Console {
             System.out.println();
         }
     }
+
+    public void endSimulation() {
+        System.out.println("\nEnd of the simulation");
+    }
 }

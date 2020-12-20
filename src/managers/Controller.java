@@ -21,22 +21,27 @@ public class Controller {
     }
 
     public void startMoving(Map map){
-        for(int step = 0; step < 10; step++) {
+        for(int step = 0; step < 50; step++) {
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             console.clean();
-            if(step % 3 == 0)
+            if(step % 3 == 0 && step != 0)
                 mapManager.addNewGrass(map);
             simulation.moveMap(map);
             simulation.reduceLiveDurationMap(map);
+            mapManager.cleanEmpty(map);
             mapManager.addBorn(map);
             mapManager.changeMap(map);
             console.printMap(map);
             statistics.count(map);
             console.printStatistics();
+            if(statistics.getPray() == 0) {
+                console.endSimulation();
+                System.exit(0);
+            }
         }
     }
 }
