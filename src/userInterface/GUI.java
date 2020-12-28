@@ -108,7 +108,9 @@ public class GUI extends Application {
             Map map = Map.getInstance();
             int mapSize = Integer.parseInt(dimension.getText());
             String typePrey = preyType.getValue().toString();
+            statistics.setPrey(typePrey);
             String typePredator = predatorType.getValue().toString();
+            statistics.setPredator(typePredator);
             Controller controller = Controller.getInstance();
             controller.startSimulation(mapSize, typePrey, typePredator);
             fillPrimaryStage(primaryStage);
@@ -131,6 +133,7 @@ public class GUI extends Application {
         buttonStart.setText("Go simulation");
         buttonStart.setStyle("-fx-background-color: darkslateblue; -fx-text-fill: white;");
         rightSide.add(buttonStart, 4, 0);
+        constructStatistics(rightSide);
         parentPane.setRight(rightSide);
         BorderPane.setAlignment(rightSide, Pos.CENTER_RIGHT);
         parentPane.setLeft(mapPane);
@@ -160,7 +163,51 @@ public class GUI extends Application {
             Controller controller = Controller.getInstance();
             controller.startMoving(10, rightSide, mapPane);
         });
+
+        Button statisticsButton = new Button("Show graphs");
+        statisticsButton.setCursor(Cursor.HAND);
+        statisticsButton.setStyle("-fx-background-color: darkslateblue; -fx-text-fill: white;");
+        rightSide.add(statisticsButton, 0, 6);
+        statisticsButton.setOnAction(event -> {
+            Stage graphStage = graphStage();
+            graphStage.show();
+        });
     }
+
+    public static Stage graphStage() {
+        Stage stage = new Stage();
+        GridPane root = new GridPane();
+        Statistics statistics = Statistics.getInstance();
+        Scene scene = new Scene(root, 700, 550);
+
+
+        List<Integer> animalsNumber = statistics.getAmountAnimalList();
+        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Number of animals");
+        final LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
+        XYChart.Series series = new XYChart.Series();
+        for(int i = 0; i < animalsNumber.size(); i++) {
+            series.getData().add(new XYChart.Data((i + 1), animalsNumber.get(i)));
+        }
+        lineChart.getData().add(series);
+
+
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                        new PieChart.Data("Food", statistics.getFood()),
+                        new PieChart.Data("Preys", statistics.getPreys()),
+                        new PieChart.Data("Predators", statistics.getPredators()));
+        final PieChart chart = new PieChart(pieChartData);
+        chart.setTitle("Current objects on Map");
+
+        root.add(lineChart, 0, 0);
+        root.add(chart, 1, 0);
+        stage.setScene(scene);
+        stage.setTitle("Graphs");
+        return stage;
+    }
+
     public static void rePrintMap(GridPane mapPane, Color[][] colorGrid) {
         Map map = Map.getInstance();
         int mapSize = map.getMapSize();
@@ -177,6 +224,73 @@ public class GUI extends Application {
             }
         }
 
+    }
+
+    public static void constructStatistics(GridPane pane) {
+        Text currentDataText = new Text("Current data: ");
+        Text foodName = new Text("Food");
+        Text preysName = new Text("Preys");
+        Text predatorsName = new Text("Predators");
+
+        Text startText = new Text("Start  ");
+        Text deadText = new Text("Dead  ");
+        Text bornText = new Text("Born  ");
+
+        currentDataText.setStyle("-fx-font: normal bold 24px 'sans-serif' ");
+        foodName.setStyle("-fx-font: normal 20px 'sans-serif' ");
+        preysName.setStyle("-fx-font: normal 20px 'sans-serif' ");
+        predatorsName.setStyle("-fx-font: normal 20px 'sans-serif' ");
+        startText.setStyle("-fx-font: normal 20px 'sans-serif' ");
+        deadText.setStyle("-fx-font: normal 20px 'sans-serif' ");
+        bornText.setStyle("-fx-font: normal 20px 'sans-serif' ");
+
+        pane.add(currentDataText, 0, 0);
+        pane.add(foodName, 0, 2);
+        pane.add(preysName, 0, 3);
+        pane.add(predatorsName, 0, 4);
+
+        pane.add(startText, 1,1);
+        pane.add(deadText, 2,1);
+        pane.add(bornText, 3,1);
+        fullStatistics(pane);
+
+    }
+
+    public static void fullStatistics(GridPane pane) {
+        pane.getChildren().removeAll(toRemove);
+        toRemove.clear();
+        Map map = Map.getInstance();
+        Statistics statistics = Statistics.getInstance();
+        statistics.count(map);
+        Text startFood = new Text(statistics.getStartFood().toString());
+        Text startPreys = new Text(statistics.getStartPreys().toString());
+        Text startPredators = new Text(statistics.getStartPredators().toString());
+        Text deadFood = new Text(statistics.getEatenFood().toString());
+        Text deadPreys = new Text(statistics.getDeadPray().toString());
+        Text deadPredators = new Text(statistics.getDeadPredators().toString());
+        Text bornFood = new Text(statistics.getBornFood().toString());
+        Text bornPreys = new Text(statistics.getBornPreys().toString());
+        Text bornPredators = new Text(statistics.getBornPredators().toString());
+        toRemove.add(startFood);
+        toRemove.add(startPreys);
+        toRemove.add(startPredators);
+        toRemove.add(deadFood);
+        toRemove.add(deadPreys);
+        toRemove.add(deadPredators);
+        toRemove.add(bornFood);
+        toRemove.add(bornPreys);
+        toRemove.add(bornPredators);
+        pane.add(startFood, 1,2);
+        pane.add(startPreys, 1,3);
+        pane.add(startPredators, 1,4);
+
+        pane.add(deadFood, 2,2);
+        pane.add(deadPreys, 2,3);
+        pane.add(deadPredators, 2,4);
+
+        pane.add(bornFood, 3,2);
+        pane.add(bornPreys, 3,3);
+        pane.add(bornPredators, 3,4);
     }
 
     public static Color[][] fillColorMap(Map map){
@@ -211,3 +325,4 @@ public class GUI extends Application {
                 (int) (color.getBlue() * 255));
     }
 }
+

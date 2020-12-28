@@ -60,6 +60,7 @@ public class MapManager {
             if (map.getMap()[indI][indJ] == null) {
                 if (foodCounter < map.getMaxFood()) {
                     map.getMap()[indI][indJ] = cellFactory.createFood();
+                    statistics.addStartFood();
                     map.getMap()[indI][indJ].setCoordinates(indI, indJ);
                     map.setInListGrass((Food) map.getMap()[indI][indJ]);
                     foodCounter++;
@@ -67,12 +68,14 @@ public class MapManager {
                 }
                 if (preyCounter < map.getMaxPrays()) {
                     map.getMap()[indI][indJ] = cellFactory.createPray(preyType);
+                    statistics.addStartPreys();
                     map.getMap()[indI][indJ].setCoordinates(indI, indJ);
                     map.setCellInListAnimal((Animal) map.getMap()[indI][indJ]);
                     preyCounter++;
                     continue;
                 }
                 if (predatorCounter < map.getMaxPredators()) {
+                    statistics.addStartPredators();
                     map.getMap()[indI][indJ] = cellFactory.createPredator(predatorType);
                     map.getMap()[indI][indJ].setCoordinates(indI, indJ);
                     map.setCellInListAnimal((Animal) map.getMap()[indI][indJ]);
@@ -87,6 +90,7 @@ public class MapManager {
     public void removeFoodFromList(Cell food, Map map) {
         map.getGrass().remove(food);
     }
+
     public void cleanEmpty(Map map) {
         List<Food> toRemoveFood = new ArrayList<>();
         List<Animal> toRemoveAnimals = new ArrayList<>();
@@ -101,6 +105,8 @@ public class MapManager {
                 toRemoveAnimals.add(map.getAnimals().get(i));
                 if(map.getAnimals().get(i) instanceof Pray){
                     statistics.addDeadPray(1);
+                } else if(map.getAnimals().get(i) instanceof Predator) {
+                    statistics.addDeadPredators(1);
                 }
             }
         }
@@ -131,6 +137,7 @@ public class MapManager {
     }
 
     public void addBorn(Map map){
+        Statistics statistics = Statistics.getInstance();
         int length = map.getAnimals().size();
         for(int i = 0; i < length; i++) {
             if(map.getAnimals().get(i).getReproductionCounter() == map.getAnimals().get(i).getReproductionTarget()){
@@ -141,6 +148,11 @@ public class MapManager {
                     animal.setCoordinates(indI, indJ);
                     map.getAnimals().get(i).setReproductionCounter(0);
                     map.setCellInListAnimal(animal);
+                    if(animal instanceof Pray){
+                        statistics.addBornPrey();
+                    } else if(animal instanceof Predator) {
+                        statistics.addBornPredators();
+                    }
                 }
                 else {
                     i--;
@@ -150,6 +162,7 @@ public class MapManager {
     }
 
     public void addNewGrass(Map map) {
+        Statistics statistics = Statistics.getInstance();
         int foodCounter = 0;
         for (int i = 0; i < map.getMaxFood()/2; i++) {
             int indI = (int) (Math.random() * map.getMapSize());
@@ -159,6 +172,7 @@ public class MapManager {
                     Food food = new Food();
                     food.setCoordinates(indI, indJ);
                     map.setInListGrass(food);
+                    statistics.addBornFood();
                 }
             } else {
                 i--;

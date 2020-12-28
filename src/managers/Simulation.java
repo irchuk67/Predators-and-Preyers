@@ -24,6 +24,7 @@ public class Simulation {
         map.getAnimals().removeAll(toRemovePray);
         statistics.addDeadPray(animalsBefore - map.getAnimals().size());
         statistics.addEatenFood(foodBefore - map.getGrass().size());
+        //statistics.addDeadPredator();
     }
 
     public void reduceLiveDurationMap(Map map) {

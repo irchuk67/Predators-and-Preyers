@@ -30,6 +30,7 @@ public class Controller {
         map.setProperties(mapSize);
         mapManager.fillMap(map, prayType, predatorType);
         System.out.println("start simulation");
+        statistics.setAmountInList(map.getAnimals());
     }
 
     public void startMoving(Map map){
@@ -71,7 +72,9 @@ public class Controller {
         mapManager.addBorn(map);
         mapManager.changeMap(map);
         Color[][] colors = GUI.fillColorMap(map);
+        GUI.fullStatistics(rightPane);
         GUI.rePrintMap(mapPane, colors);
+        statistics.setAmountInList(map.getAnimals());
         if(statistics.getPreys() == 0) {
             return;
         }
@@ -84,3 +87,4 @@ public class Controller {
         return instance;
     }
 }
+

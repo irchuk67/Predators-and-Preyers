@@ -79,6 +79,7 @@ public class Console {
         System.out.println("Pray: " + statistics.getPreys());
         System.out.println("Predator: " + statistics.getPredators());
         System.out.println("Dead prays: " + statistics.getDeadPray());
+        System.out.println("Dead predators: " + statistics.getDeadPredators());
         System.out.println("Eaten food: " + statistics.getEatenFood());
     }
 
