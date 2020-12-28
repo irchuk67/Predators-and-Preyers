@@ -3,8 +3,11 @@ package managers;
 import cells.Animal;
 import cells.Cell;
 import cells.Food;
+import cells.Pray;
+import cells.Predator;
 import userInterface.Console;
 import visualComponents.Map;
+import visualComponents.Statistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +15,6 @@ import java.util.List;
 public class MapManager {
     private final CellFactory cellFactory = new CellFactory();
     private final Console console = new Console();
-
-    public Map createMap(int mapSize) {
-        return new Map(mapSize);
-    }
 
     public void fillMap(Map map) {
         int typePray = console.prayOnMap();
@@ -51,13 +50,47 @@ public class MapManager {
         }
     }
 
+    public void fillMap(Map map, String preyType, String predatorType) {//overloaded for GUI
+        Statistics statistics = Statistics.getInstance();
+        System.out.println("fill the map");
+        int foodCounter = 0, preyCounter = 0, predatorCounter = 0;
+        for (int i = 0; i < map.getObjectsAmount(); i++) {
+            int indI = (int) (Math.random() * map.getMapSize());
+            int indJ = (int) (Math.random() * map.getMapSize());
+            if (map.getMap()[indI][indJ] == null) {
+                if (foodCounter < map.getMaxFood()) {
+                    map.getMap()[indI][indJ] = cellFactory.createFood();
+                    map.getMap()[indI][indJ].setCoordinates(indI, indJ);
+                    map.setInListGrass((Food) map.getMap()[indI][indJ]);
+                    foodCounter++;
+                    continue;
+                }
+                if (preyCounter < map.getMaxPrays()) {
+                    map.getMap()[indI][indJ] = cellFactory.createPray(preyType);
+                    map.getMap()[indI][indJ].setCoordinates(indI, indJ);
+                    map.setCellInListAnimal((Animal) map.getMap()[indI][indJ]);
+                    preyCounter++;
+                    continue;
+                }
+                if (predatorCounter < map.getMaxPredators()) {
+                    map.getMap()[indI][indJ] = cellFactory.createPredator(predatorType);
+                    map.getMap()[indI][indJ].setCoordinates(indI, indJ);
+                    map.setCellInListAnimal((Animal) map.getMap()[indI][indJ]);
+                    predatorCounter++;
+                }
+            } else {
+                i--;
+            }
+        }
+    }
+
     public void removeFoodFromList(Cell food, Map map) {
         map.getGrass().remove(food);
     }
-
     public void cleanEmpty(Map map) {
         List<Food> toRemoveFood = new ArrayList<>();
         List<Animal> toRemoveAnimals = new ArrayList<>();
+        Statistics statistics = Statistics.getInstance();
         for (int i = 0; i < map.getGrass().size(); i++) {
             if (map.getGrass().get(i).getLiveDuration() <= 0) {
                 toRemoveFood.add(map.getGrass().get(i));
@@ -66,13 +99,15 @@ public class MapManager {
         for (int i = 0; i < map.getAnimals().size(); i++) {
             if (map.getAnimals().get(i).getLiveDuration() <= 0) {
                 toRemoveAnimals.add(map.getAnimals().get(i));
+                if(map.getAnimals().get(i) instanceof Pray){
+                    statistics.addDeadPray(1);
+                }
             }
         }
         map.getAnimals().removeAll(toRemoveAnimals);
         map.getGrass().removeAll(toRemoveFood);
         if(map.getAnimals().size() == 0) {
-            console.endSimulation();
-            System.exit(0);
+            return;
         }
     }
 

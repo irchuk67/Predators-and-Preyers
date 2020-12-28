@@ -1,8 +1,8 @@
-import managers.Controller;
+import javafx.application.Application;
+import userInterface.GUI;
 
 public class Main {
     public static void main(String[] args) {
-        Controller controller = new Controller();
-        controller.startSimulation();
+        Application.launch(GUI.class, args);
     }
 }

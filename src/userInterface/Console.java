@@ -76,8 +76,8 @@ public class Console {
     public void printStatistics(){
         Statistics statistics = Statistics.getInstance();
         System.out.println("Food: " + statistics.getFood());
-        System.out.println("Pray: " + statistics.getPray());
-        System.out.println("Predator: " + statistics.getPredator());
+        System.out.println("Pray: " + statistics.getPreys());
+        System.out.println("Predator: " + statistics.getPredators());
         System.out.println("Dead prays: " + statistics.getDeadPray());
         System.out.println("Eaten food: " + statistics.getEatenFood());
     }

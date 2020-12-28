@@ -5,6 +5,7 @@ import visualComponents.Map;
 import visualComponents.Statistics;
 
 public class Controller {
+    private static Controller instance;
     private CellFactory cellFactory = new CellFactory();
     private MapManager mapManager = new MapManager();
     private Console console = new Console();
@@ -13,11 +14,19 @@ public class Controller {
 
     public void startSimulation(){
         console.startText();
-        Map map = mapManager.createMap(console.mapSizeEnter());
+        Map map = Map.getInstance();
+        map.setProperties(console.mapSizeEnter());
         mapManager.fillMap(map);
         console.printMap(map);
         console.printStatus(map);
         startMoving(map);
+    }
+
+    public void startSimulation(int mapSize, String prayType, String predatorType){ //overloaded for GUI
+        Map map = Map.getInstance();
+        map.setProperties(mapSize);
+        mapManager.fillMap(map, prayType, predatorType);
+        System.out.println("start simulation");
     }
 
     public void startMoving(Map map){
@@ -38,10 +47,17 @@ public class Controller {
             console.printMap(map);
             statistics.count(map);
             console.printStatistics();
-            if(statistics.getPray() == 0) {
+            if(statistics.getPreys() == 0) {
                 console.endSimulation();
                 System.exit(0);
             }
         }
+    }
+
+    public static Controller getInstance() {
+        if(instance == null){
+            instance = new Controller();
+        }
+        return instance;
     }
 }

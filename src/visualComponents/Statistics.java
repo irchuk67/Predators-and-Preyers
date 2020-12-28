@@ -1,67 +1,51 @@
 package visualComponents;
 import cells.Animal;
 import cells.Pray;
-import visualComponents.Map;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Statistics {
     private static Statistics instance;
-    private int food = 0;
-    private int pray = 0;
-    private int predator = 0;
-    private int deadPray = 0;
-    private int eatenFood = 0;
-    private int deadPredator = 0;
+    private Integer food = 0;
+    private Integer preys = 0;
+    private Integer predators = 0;
+    private Integer deadPray = 0;
+    private Integer eatenFood = 0;
+    private Integer deadPredators = 0;
 
     private Statistics(){}
 
     public void count(Map map){
         food = 0;
-        pray = 0;
-        predator = 0;
+        preys = 0;
+        predators = 0;
         for (int i = 0; i < map.getAnimals().toArray().length; i++){
             if (map.getAnimals().get(i) instanceof Pray){
-                pray++;
+                preys++;
             }
             else {
-                predator++;
+                predators++;
             }
         }
         food = map.getGrass().toArray().length;
     }
 
-    public int[] prevStep(int[] statistics){
-        int[] prev = new int[3];
-        for (int i = 0; i < 3; i++){
-            prev[i] = statistics[i];
-        }
-        return prev;
-    }
-
-    public int getFood() {
+    public Integer getFood() {
         return food;
     }
 
-    public int getPray() {
-        return pray;
+    public Integer getPreys() {
+        return preys;
     }
 
-    public int getPredator() {
-        return predator;
-    }
 
-    public int getDeadPray() {
+    public Integer getDeadPray() {
         return deadPray;
     }
 
-    public int getEatenFood() {
+    public Integer getEatenFood() {
         return eatenFood;
-    }
-
-    public int getDeadPredator() {
-        return deadPredator;
     }
 
     public void addDeadPray(int deadCount){
@@ -72,8 +56,8 @@ public class Statistics {
         this.eatenFood += eatenFood;
     }
 
-    public void addDeadPredator(int deadPredator){
-        this.deadPredator += deadPredator;
+    public Integer getPredators() {
+        return predators;
     }
 
     public static Statistics getInstance(){

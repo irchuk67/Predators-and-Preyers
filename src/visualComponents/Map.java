@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
+    private static Map instance;
     private List<Animal> animals = new ArrayList<>();
     private List<Food> grass = new ArrayList<>();
     private Cell[][] map;
@@ -17,7 +18,10 @@ public class Map {
     private int maxPredators;
     private int objectsAmount;
 
-    public Map(int mapSize) {
+    private Map() {
+    }
+
+    public void setProperties(int mapSize) {
         this.mapSize = mapSize;
         map = new Cell[mapSize][mapSize];
         maxFood = (mapSize * mapSize) / 8;
@@ -25,6 +29,7 @@ public class Map {
         maxPredators = maxPrays / 2;
         objectsAmount = maxFood + maxPrays + maxPredators;
     }
+
 
     public void setCellInListAnimal(Animal animal) {
         animals.add(animal);
@@ -68,5 +73,12 @@ public class Map {
 
     public List<Food> getGrass() {
         return grass;
+    }
+
+    public static Map getInstance() {
+        if(instance == null){
+            instance = new Map();
+        }
+        return instance;
     }
 }

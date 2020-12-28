@@ -18,6 +18,16 @@ public class CellFactory {
         return new Pray();
     }
 
+    public Cell createPray(String type) { //overloaded for GUI
+        System.out.println("Create pray: " + type);
+        return switch (type) {
+            case "Deer" -> new Deer();
+            case "Hare" -> new Hare();
+            case "Sheep" -> new Sheep();
+            default -> new Pray();
+        };
+    }
+
     public Predator createPredator(int type) {
         if (type == 1) {
             return new Fox();
@@ -29,6 +39,16 @@ public class CellFactory {
             return new Wolf();
         }
         return new Predator();
+    }
+
+    public Predator createPredator(String type) { //overloaded for GUI
+        System.out.println("Create predator: " + type);
+        return switch (type) {
+            case "Fox" -> new Fox();
+            case "Lynx" -> new Lynx();
+            case "Wolf" -> new Wolf();
+            default -> new Predator();
+        };
     }
 
     public Food createFood() {
@@ -46,29 +66,4 @@ public class CellFactory {
             throw new Exception("Not an object!");
         }
     }
-
-//    public void makeZeroLiveDurationNull(Map map) {
-//        for (int i = 0; i < map.getGrass().size(); i++) {
-//            if (map.getGrass().get(i).getLiveDuration() <= 0) {
-//                try {
-//                    makeEmptyCell(map.getGrass().get(i));
-//                    System.out.println("/make grass null");
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        }
-//        for (int i = 0; i < map.getAnimals().size(); i++) {
-//            if (map.getAnimals().get(i).getLiveDuration() <= 0) {
-//                try {
-//                    makeEmptyCell(map.getAnimals().get(i));
-//                    System.out.println("/make animal null");
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        }
-//    }
 }
