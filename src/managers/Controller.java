@@ -1,6 +1,9 @@
 package managers;
 
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import userInterface.Console;
+import userInterface.GUI;
 import visualComponents.Map;
 import visualComponents.Statistics;
 
@@ -22,7 +25,7 @@ public class Controller {
         startMoving(map);
     }
 
-    public void startSimulation(int mapSize, String prayType, String predatorType){ //overloaded for GUI
+    public void startSimulation(int mapSize, String prayType, String predatorType){//overloaded for GUI
         Map map = Map.getInstance();
         map.setProperties(mapSize);
         mapManager.fillMap(map, prayType, predatorType);
@@ -54,8 +57,28 @@ public class Controller {
         }
     }
 
+    public void startMoving(int pause, GridPane rightPane, GridPane mapPane){
+        Map map = Map.getInstance();
+        try {
+            Thread.sleep(pause);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        simulation.moveMap(map);
+        simulation.reduceLiveDurationMap(map);
+        mapManager.cleanEmpty(map);
+        mapManager.addBorn(map);
+        mapManager.changeMap(map);
+        Color[][] colors = GUI.fillColorMap(map);
+        GUI.rePrintMap(mapPane, colors);
+        if(statistics.getPreys() == 0) {
+            return;
+        }
+    }
+
     public static Controller getInstance() {
-        if(instance == null){
+        if(instance == null) {
             instance = new Controller();
         }
         return instance;
